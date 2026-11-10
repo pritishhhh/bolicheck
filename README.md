@@ -38,16 +38,25 @@ To return to v3.0, run `Remove-Item Env:GNANI_MODEL` and restart. Use `--port 87
 
 ## Deploy on Vercel
 
-Import the repository into Vercel with the configuration in `vercel.json`. Practice mode is public. To enable Gnani speech, set `GNANI_API_KEY` and a separate random `BOLICHECK_VOICE_CODE` as sensitive production environment variables, then redeploy. Share the demo code privately with reviewers who need live speech. Keep the Gnani key in the Vercel environment and your ignored local `.env` file.
+1. Open [New Project on Vercel](https://vercel.com/new) and import `pritishhhh/bolicheck` from GitHub. Use the `main` branch, keep the root directory at the repository root, and select **Other** if prompted for a framework preset. Leave the build settings at their defaults. `vercel.json` sets the output directory to `web` and includes the Python function.
+2. To enable live speech, add two sensitive **Production** environment variables before deploying:
+
+   | Name | Value |
+   | --- | --- |
+   | `GNANI_API_KEY` | Your Gnani Speech-to-Text API key |
+   | `BOLICHECK_VOICE_CODE` | A separate random passcode using at least 20 ASCII letters or digits |
+
+   Leave both variables unset for a Practice-only deployment. If you add them after deploying, redeploy to apply the changes.
+3. Click **Deploy**. Open the production URL and click **Check transcript** in **Practice**. The example should show **10 short**. To test live speech, switch to **Gnani speech**, enter the demo access code, and record or upload a short scripted count. Share only the demo access code with reviewers who need live speech.
 
 ## How it works
 
-1. The browser converts a clip to mono 16 kHz WAV and sends it to the local server.
+1. The browser converts a clip to mono 16 kHz WAV and sends it to the server.
 2. The server calls [Gnani’s Prisma REST transcription API](https://docs.gnani.ai/api/STT/speech-to-text). It sends the audio and language settings, keeping the manifest quantities local.
 3. A count rule accepts one supported whole number from 0 to 99 in a short phrase. The app flags differences and asks for a recount when a phrase contains conflicting numbers, uncertainty, or words outside the supported count vocabulary.
 4. The operator checks the transcript against the actual load and manually confirms once both rows match. The prototype keeps the handoff state in the current page. Refreshing resets it.
 
-Speech recognition can still confidently return the wrong single number. The transcript and manual check are part of the workflow. The app uses a fixed sample manifest and demonstrates the handoff decision locally.
+Speech recognition can still confidently return the wrong single number. The transcript and manual check are part of the workflow. The app uses a fixed sample manifest and keeps the handoff decision in the browser session.
 
 ## Verify the count rules
 
