@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BoliCheck | Voice dispatch checks</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="top"><div class="shell masthead">
+    <div class="brand"><span class="logo" aria-hidden="true">✓</span> BoliCheck</div>
+    <span class="top-label">VOICE DISPATCH CHECK</span>
+  </div></header>
+
+  <main class="shell">
+    <div class="intro">
+      <p class="eyebrow">WAREHOUSE OPERATIONS <span aria-hidden="true">/</span> OUTBOUND</p>
+      <h1>Check the count<br>before the truck leaves.</h1>
+      <p>Speak each item’s count in Hindi or English. Compare it with the manifest and resolve discrepancies before handoff.</p>
+    </div>
+
+    <div class="workspace">
+      <section class="card manifest" aria-labelledby="manifest-title">
+        <div class="card-heading">
+          <div><p class="eyebrow">SYNTHETIC LOAD · BC-042</p><h2 id="manifest-title">Dispatch manifest</h2></div>
+          <span class="pill" id="load-status" role="status">Pending</span>
+        </div>
+        <div id="rows" class="rows"></div>
+        <div class="manifest-actions">
+          <button id="confirm" class="primary" type="button" disabled>Confirm handoff</button>
+          <button id="reset" class="quiet" type="button">Reset load</button>
+        </div>
+        <p id="receipt" class="note" role="status">Confirm after physically checking both counts.</p>
+      </section>
+
+      <section class="card capture" aria-labelledby="capture-title">
+        <div class="card-heading">
+          <div><p class="eyebrow">COUNT ONE ITEM AT A TIME</p><h2 id="capture-title">Capture count</h2></div>
+        </div>
+        <div class="mode" aria-label="Input mode">
+          <button id="voice-mode" type="button" aria-pressed="false">Gnani speech</button>
+          <button id="practice-mode" type="button" aria-pressed="true">Practice</button>
+        </div>
+        <p id="target" class="target">Select an item from the manifest.</p>
+
+        <div id="voice-panel" hidden>
+          <p id="voice-help" class="note">Record one final count, or upload a short WAV or MP3. Use a synthetic scenario.</p>
+          <label id="voice-access" for="voice-code" class="voice-access" hidden>
+            Demo access code
+            <input id="voice-code" type="password" maxlength="128" autocomplete="off">
+          </label>
+          <div class="voice-actions">
+            <button id="record" class="primary" type="button">Record count</button>
+            <label id="upload-label" class="secondary upload" for="audio-file">Upload audio</label>
+            <input id="audio-file" type="file" accept="audio/wav,audio/mpeg,audio/mp4,audio/ogg,.wav,.mp3,.m4a,.ogg">
+          </div>
+          <audio id="playback" controls hidden></audio>
+        </div>
+
+        <form id="practice-panel">
+          <label for="transcript">Sample transcript</label>
+          <input id="transcript" type="text" maxlength="180" autocomplete="off" required>
+          <div class="samples" aria-label="Practice examples">
+            <button class="quiet" data-sample="short" type="button">Short count</button>
+            <button class="quiet" data-sample="unclear" type="button">Two counts</button>
+            <button class="quiet" data-sample="exact" type="button">Exact count</button>
+          </div>
+          <button id="check" class="primary" type="submit">Check transcript</button>
+        </form>
+
+        <p id="activity" class="note" role="status"></p>
+        <div id="result" class="result" aria-live="polite" hidden>
+          <div class="result-line"><strong id="result-state"></strong><span id="result-source"></span></div>
+          <p id="result-detail"></p>
+          <p id="result-transcript" class="transcript"></p>
+        </div>
+      </section>
+    </div>
+    <footer><span>BoliCheck prototype</span><span>Hinglish · Gnani Prisma Speech-to-Text · Synthetic manifest</span></footer>
+  </main>
+</body>
+</html>

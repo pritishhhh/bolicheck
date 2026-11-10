@@ -1,0 +1,5 @@
+__pycache__/
+.env*
+.vercel/
+*.wav
+*.mp3
